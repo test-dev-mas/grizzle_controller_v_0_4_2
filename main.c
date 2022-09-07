@@ -343,8 +343,10 @@ int main() {
             x = message;
             message_ready = false;
 
+            PORTK |= (1 << PK0);                                    // activity light on
             transition_look_up(&state_machine, x);
-            sleep_mode();                                               // put MCU to sleep after function returns
+            PORTK &= ~(1 <<PK0);                                    // activity light off
+            sleep_mode();                                           // put MCU to sleep after function returns
         }
 
         /* if look-up is placed here, it gets executed on every timer0 interrupt */
@@ -368,6 +370,8 @@ void init_system() {
 
     DDRH |= (1 << PH3) | (1 << PH4) | (1 << PH5) | (1 << PH6);      // A0/1/2/3 on HC154
     PORTH |= (1 << PH3) | (1 << PH4) | (1 << PH5) | (1 << PH6);
+
+    DDRK |= (1 << PK0);
 
     DDRA |= (1 << PA0) | (1 << PA1) | (1 << PA2) | (1 << PA3);      // s0/s1/s2/s3 on tcs3200
     PORTA |= (1 << PA0);                                            // frequency scaling 20%
@@ -598,8 +602,8 @@ void test_2() {                                                     // test: GRO
             uint32_t t_1 = tick;
             
             /* DEBUG */
-            // sprintf(buffer, "beep: %lu\r\n", tick-t_0);
-            // uart0_puts(buffer);
+            sprintf(buffer, "beep: %lu\r\n", tick-t_0);
+            uart0_puts(buffer);
             num_beep++;
 
             beep_flag = false;
@@ -625,23 +629,23 @@ void test_2() {                                                     // test: GRO
     PORTC |= (1 << relay_16[0].pin) | (1 << relay_16[1].pin);
     _delay_ms(1500);                                                // after relay opens, it take ~ 1.3 s for the board to emit beep, shoulde wait for the until the next test
 
-    (led_blink == 6) ? (test_result[0] = 0) : (test_result[0] = 1);
-    (num_beep == 6) ? (test_result[1] = 0) : (test_result[1] = 1);
-    (volt_tp38 > 2400 && volt_tp38 < 2500) ? (test_result[2] = 0) : (test_result[2] = 1);
+    // (led_blink == 6) ? (test_result[0] = 0) : (test_result[0] = 1);
+    // (num_beep == 6 || num_beep == 7) ? (test_result[1] = 0) : (test_result[1] = 1);
+    // (volt_tp38 > 2400 && volt_tp38 < 2500) ? (test_result[2] = 0) : (test_result[2] = 1);
     
-    for (uint8_t i=0;i<3;i++) {
-        if (test_result[i]) {
-            uart0_transmit(0x31 + i);
-            uart0_transmit('F');
-            return;
-        }
-    }
-    uart0_transmit(0x31 + 2);
-    uart0_transmit('P');
+    // for (uint8_t i=0;i<3;i++) {
+    //     if (test_result[i]) {
+    //         uart0_transmit(0x31 + i);
+    //         uart0_transmit('F');
+    //         return;
+    //     }
+    // }
+    // uart0_transmit(0x31 + 2);
+    // uart0_transmit('P');
 
-    return;
-    // sprintf(buffer, "blink: %u beep: %u\r\n", led_blink, num_beep);
-    // uart0_puts(buffer);
+    // return;
+    sprintf(buffer, "blink: %u beep: %u\r\n", led_blink, num_beep);
+    uart0_puts(buffer);
 }
 
 void test_3() {
@@ -1076,7 +1080,7 @@ void test_6() {
         detection of initial state can be omitted
     */
     
-    // PORTF |= (1 << PF5);
+    // PORTF |= (1 << PF4);
     uint32_t t_0 = tick;  
     t_L1_L2_OUT_OFF = tick;
 
@@ -1147,11 +1151,11 @@ void test_6() {
         }
 
         /* timeout */
-        if (tick - t_0 > 20000) {
+        if (tick - t_0 > 25000) {
             break;
         }
     }
-    // PORTF &= ~(1 << PF5);
+    // PORTF &= ~(1 << PF4);
     PORTA |= (1 << PA4) | (1 << PA5);                               // disconnect TP29, TP30 to dc variable supply (PD3603A)
     _delay_ms(250);
     PORTC |= (1 << relay_16[2].pin) | (1 << relay_16[0].pin) | (1 << relay_16[1].pin);        
@@ -1232,7 +1236,7 @@ void test_7() {
                     break;
                 
                 case 1:                                                 // falling edge
-                    if (tick - t_1 < 722 && tick - t_1 > 615) {         // beep ON width: 655 ms +/- 5%
+                    if (tick - t_1 < 750 && tick - t_1 > 615) {         // beep ON width: 655 ms +/- 5%
                         number_beep++;
                         // uart0_puts("beep!\r\n");
                     }
@@ -1307,7 +1311,7 @@ void test_8() {
 
     uint32_t t_0 = tick;                                            // record start time
 
-    // PORTF |= (1<<PF2);
+    // PORTF |= (1<<PF4);
 
     for (;;) {
         if (color_data_ready) {
@@ -1330,7 +1334,7 @@ void test_8() {
             // sprintf(buffer, "beep: %u\r\n", tick - t_0);
             // uart0_puts(buffer);
 
-            if (tick - t_0 > 1400) {
+            if (tick - t_0 > 1200) {
                 switch (edge_direction)
                 {
                 case 0:                                                 // rising edge
@@ -1339,7 +1343,7 @@ void test_8() {
                     break;
                 
                 case 1:                                                 // falling edge
-                    if (tick - t_1 < 722 && tick - t_1 > 615) {         // beep ON width: 655 ms +/- 5%
+                    if (tick - t_1 < 750 && tick - t_1 > 615) {         // beep ON width: 655 ms +/- 5%
                         number_beep++;
                         // uart0_puts("beep!\r\n");
                     }
@@ -1377,7 +1381,7 @@ void test_8() {
     PORTC |= (1 << relay_16[2].pin) | (1 << relay_16[0].pin) | (1 << relay_16[1].pin);
     PORTK |= (1 << relay_16[6].pin);
 
-    // PORTF &= ~(1<<PF2);                                             // end of test
+    // PORTF &= ~(1<<PF4);                                             // end of test
 
     // sprintf(buffer, "blink: %u beep: %u\r\n", led_blink, number_beep);
     // uart0_puts(buffer);
@@ -1449,7 +1453,7 @@ void test_9() {
                     break;
                 
                 case 1:                                                 // falling edge
-                    if (tick - t_1 < 722 && tick - t_1 > 615) {         // beep ON width: 655 ms +/- 5%
+                    if (tick - t_1 < 750 && tick - t_1 > 615) {         // beep ON width: 655 ms +/- 5%
                         number_beep++;
                         // uart0_puts("beep!\r\n");
                     }
@@ -1527,7 +1531,7 @@ void test_10() {
 
     uint32_t t_0 = tick;                                            // record start time
 
-    // PORTF |= (1<<PF2);
+    // PORTF |= (1<<PF4);
 
     for (;;) {
         if (color_data_ready) {
@@ -1550,7 +1554,7 @@ void test_10() {
             // sprintf(buffer, "beep: %u\r\n", tick - t_0);
             // uart0_puts(buffer);
 
-            if (tick - t_0 > 1400) {
+            if (tick - t_0 > 1200) {
                 switch (edge_direction)
                 {
                 case 0:                                                 // rising edge
@@ -1559,7 +1563,7 @@ void test_10() {
                     break;
                 
                 case 1:                                                 // falling edge
-                    if (tick - t_1 < 722 && tick - t_1 > 615) {         // beep ON width: 655 ms +/- 5%
+                    if (tick - t_1 < 750 && tick - t_1 > 615) {         // beep ON width: 655 ms +/- 5%
                         number_beep++;
                         // uart0_puts("beep!\r\n");
                     }
@@ -1597,7 +1601,7 @@ void test_10() {
     PORTC |= (1 << relay_16[2].pin) | (1 << relay_16[0].pin) | (1 << relay_16[1].pin);
     PORTK |= (1 << relay_16[8].pin) | (1 << relay_16[9].pin) | (1 << relay_16[10].pin);
 
-    // PORTF &= ~(1<<PF2);                                             // end of test
+    // PORTF &= ~(1<<PF4);                                             // end of test
 
     // sprintf(buffer, "blink: %u beep: %u\r\n", led_blink, number_beep);
     // uart0_puts(buffer);
@@ -1685,7 +1689,7 @@ void test_11() {
             //         break;
                 
             //     case 1:                                             // falling edge
-            //         if (tick - t_1 < 722 && tick - t_1 > 615) {     // beep ON width: 655 ms +/- 5%
+            //         if (tick - t_1 < 750 && tick - t_1 > 615) {     // beep ON width: 655 ms +/- 5%
             //             number_beep++;
             //             uart0_puts("beep!\r\n");
             //         }
