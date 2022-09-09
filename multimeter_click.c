@@ -2,6 +2,15 @@
 
 #include "multimeter_click.h"
 
+/*  the potential difference at two input terminals is compared to VGND, which is at half of Vref(2.048)
+    0 potential difference should result in 2047/2048, mid-point of 12-bit conversion range
+    smaller value than 2047/2048 means negative potential difference at input terminals
+    larger value than 2047/2048 means positive potential difference at input terminals
+    V_measured = (N - 2047)/4096 * 2.048 * 17
+    2.048 is the V_ref to ADC, 17 is the constant intrinsic to the analog front-end (is empirically derived like 12V -> 470) 
+    a calibration against a high precision reference voltage is needed to pin point this constant
+*/
+
 void multimeter_init() {
     DDRD |= (1 << CS);
     PORTD |= (1 << CS);

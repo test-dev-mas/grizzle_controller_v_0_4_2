@@ -103,78 +103,161 @@ static void relay_call(uint8_t pin);
 
 // void transition_look_up(struct state_machine_t *state_machine, enum event_t event);
 
-uint8_t led_sequence[][3] = {
-    {183,9,18},
-    {184,9,18},
-    {184,9,18},
-    {184,9,18},
-    {184,9,18},
-    {184,9,18},
-    {184,9,18},
-    {184,9,18},
-    {184,9,18},
-    {184,9,58},
-    {18,124,127},
-    {19,123,127},
-    {19,124,126},
-    {19,123,127},
-    {21,123,127},
-    {19,123,127},
-    {18,124,127},
-    {18,124,126},
-    {19,123,127},
-    {18,124,126},
-    {19,123,127},
-    {18,124,126},
-    {19,123,127},
-    {18,124,126},
-    {19,123,127},
-    {18,124,126},
-    {19,123,127},
-    {18,123,127},
-    {19,123,126},
-    {19,123,90},
-    {183,9,18},
-    {183,9,18},
-    {183,9,18},
-    {183,10,18},
-    {183,9,18},
-    {183,12,18},
-    {184,9,18},
-    {183,9,18},
-    {183,10,18},
-    {183,9,18},
-    {183,9,19},
-    {183,9,18},
-    {183,10,18},
-    {183,9,18},
-    {184,9,18},
-    {183,9,19},
-    {183,9,18},
-    {183,10,18},
-    {183,9,18},
-    {184,9,18},
-    {183,9,19},
-    {183,9,18},
-    {184,9,18},
-    {183,9,19},
-    {183,9,18},
-    {184,9,18},
-    {183,9,19},
-    {183,9,18},
-    {184,9,18},
-    {184,9,18},
-    {183,10,18},
-    {183,9,18},
-    {184,9,18},
-    {184,9,40}
-    // {2,35,101},
-    // {3,35,101},
-    // {2,35,101},
-    // {2,36,101},
-    // {2,35,101}
-};
+// uint8_t led_sequence[][3] = {
+//     {183,9,18},
+//     {184,9,18},
+//     {184,9,18},
+//     {184,9,18},
+//     {184,9,18},
+//     {184,9,18},
+//     {184,9,18},
+//     {184,9,18},
+//     {184,9,18},
+//     {184,9,58},
+//     {18,124,127},
+//     {19,123,127},
+//     {19,124,126},
+//     {19,123,127},
+//     {21,123,127},
+//     {19,123,127},
+//     {18,124,127},
+//     {18,124,126},
+//     {19,123,127},
+//     {18,124,126},
+//     {19,123,127},
+//     {18,124,126},
+//     {19,123,127},
+//     {18,124,126},
+//     {19,123,127},
+//     {18,124,126},
+//     {19,123,127},
+//     {18,123,127},
+//     {19,123,126},
+//     {19,123,90},
+//     {183,9,18},
+//     {183,9,18},
+//     {183,9,18},
+//     {183,10,18},
+//     {183,9,18},
+//     {183,12,18},
+//     {184,9,18},
+//     {183,9,18},
+//     {183,10,18},
+//     {183,9,18},
+//     {183,9,19},
+//     {183,9,18},
+//     {183,10,18},
+//     {183,9,18},
+//     {184,9,18},
+//     {183,9,19},
+//     {183,9,18},
+//     {183,10,18},
+//     {183,9,18},
+//     {184,9,18},
+//     {183,9,19},
+//     {183,9,18},
+//     {184,9,18},
+//     {183,9,19},
+//     {183,9,18},
+//     {184,9,18},
+//     {183,9,19},
+//     {183,9,18},
+//     {184,9,18},
+//     {184,9,18},
+//     {183,10,18},
+//     {183,9,18},
+//     {184,9,18},
+//     {184,9,40}
+//     // {2,35,101},
+//     // {3,35,101},
+//     // {2,35,101},
+//     // {2,36,101},
+//     // {2,35,101}
+// };
 
+// uint8_t led_sequence[][3] = {
+//     {191,10,19},
+//     {191,10,18},
+//     {192,10,18},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,40,122},
+//     {194,46,121},
+//     {194,46,121},
+//     {194,46,121},
+//     {194,46,121},
+//     {194,46,121},
+//     {194,58,130},
+//     {193,46,122},
+//     {193,46,121},
+//     {194,45,122},
+//     {193,46,122},
+//     {193,45,122},
+//     {193,46,122},
+//     {193,45,122},
+//     {193,46,121},
+//     {194,45,122},
+//     {193,46,121},
+//     {193,46,122},
+//     {193,46,121},
+//     {193,46,122},
+//     {193,15,19},
+//     {191,10,18},
+//     {192,9,19},
+//     {191,10,19},
+//     {191,9,19},
+//     {191,10,19},
+//     {191,10,18},
+//     {192,9,19},
+//     {192,9,19},
+//     {191,10,19},
+//     {191,10,19},
+//     {191,10,18},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,10,18},
+//     {192,10,18},
+//     {192,10,19},
+//     {191,10,19},
+//     {192,9,19},
+//     {192,9,19},
+//     {192,30,103}
+//     // {2,37,103},
+//     // {2,37,103},
+//     // {2,37,103},
+//     // {2,36,104},
+//     // {2,36,104}
+// };
+
+/* for new algorithm, 6 color patterns including off(all zeor) */
+uint8_t led_sequence[][3] = {
+    {0,0,0},
+    {192,9,19},
+    {194,46,121},
+    {192,9,19},
+    {192,9,19},
+    {2,37,103}
+};
 /* define all possible states */
 
 struct relay_module_t relay_16[] = {
@@ -189,7 +272,11 @@ struct relay_module_t relay_16[] = {
     {PK5, "SW_L2_HL"},
     {PK4, "SW_STATE_B"},
     {PK3, "SW_STATE_A"},
-    {PK2, "SW_DIODE"}
+    {PK2, "SW_DIODE"},
+    {PA4, "TP29"},
+    {PA5, "TP30"},
+    {PA6, "TP4"},
+    {PA7, "TP5"}
 };
 
 /* use the same struct for onboard relays */
@@ -294,7 +381,7 @@ static struct state_function_row_t state_function_matrix[] = {
     {"GFCI_L2_LOW_LEAKAGE", test_9},
     {"GFCI_L2_HIGH_LEAKAGE", test_10},
     {"STUCK RELAY", test_11},
-    {"UART", test_12},
+    {"END", _abort},
     {"STATE ABORT 1", _abort},
     {"STATE ABORT 2", _abort},
     {"STATE ABORT 3", _abort},
@@ -445,6 +532,9 @@ void disable_blink() {
 }
 
 void test_1() {
+    PORTA &= ~(1 << relay_16[15].pin);                              // T_REF on JLINK is on NO(16), close this relay cuts this connection
+    _delay_ms(1000);
+
     DDRC |= (1 << relay_16[2].pin);
     _delay_ms(500);
     DDRC |= (1 << relay_16[0].pin) | (1 << relay_16[1].pin);
@@ -462,13 +552,25 @@ void test_1() {
 
     for (;;) {
         if (color_data_ready) {                                                 // whenever a complete set of {r,g,b} is sampled
-            if ((led_time > 80) && (led_time < 145)) {                          // between 810 ~ 1440 ms
-                for (uint8_t i=0;i<3;i++) {                                     // iterate r/g/b    
-                    if (abs(color_value[i] - led_sequence[j][i]) > 50) {        // compare r/g/b sampled to r/g/b stored in a array (sometime error can get up to 35, 50 is a pretty safe margin)
-                        blink_fail += 1;                                        // if each set matches to stored value, correct led flash sequence must have been observed
+            // if ((led_time > 75) && (led_time < 142)) {                          // between 810 ~ 1440 ms
+            //     for (uint8_t i=0;i<3;i++) {                                     // iterate r/g/b    
+            //         if (abs(color_value[i] - led_sequence[j][i]) > 50) {        // compare r/g/b sampled to r/g/b stored in a array (sometime error can get up to 35, 50 is a pretty safe margin)
+            //             blink_fail += 1;                                        // if each set matches to stored value, correct led flash sequence must have been observed
+            //             // sprintf(buffer, "%u\r\n", led_time);
+            //             // uart0_puts(buffer);
+            //         }
+            //     }
+            //     j++;                                                            // increment this index only during this compare time window
+            // }
+
+            /* a smimpler algorithm, only look at number of transitions, not led on time */
+            if (j < 6) {
+                for (uint8_t i=0;i<3;i++) {
+                    if (abs(color_value[i] - led_sequence[j][i]) > 50) {
+                        j++;
+                        // uart0_transmit('^');
                     }
                 }
-                j++;                                                            // increment this index only during this compare time window
             }
 
             led_time++;                                                         // led_time starts from begining of sampling, gets incremented in each sampling period
@@ -495,13 +597,8 @@ void test_1() {
     stop_timer1();
     disable_blink();
 
-    /* blink DEBUG */
-    blink_fail ? (test_result[0] = 1) : (test_result[0] = 0);
-
-    /* L1_OUT & L2_OUT DEBUG INFO */
-    uint16_t x = sqrt(true_rms_sum/true_rms_num);
-
-    (x > 44 || x < 46) ? (test_result[1] += 0) : (test_result[1] += 1);
+    // sprintf(buffer, "%u\r\n", j);
+    // uart0_puts(buffer);
 
     /* TP voltage measurement */
     RT68_ON                                                         // connect multimeter v- to DUT GND
@@ -514,12 +611,10 @@ void test_1() {
     // sprintf(buffer, "TP35: %d\r\n", volt_tp35);
     // uart0_puts(buffer);
 
-    (volt_tp35 > 2000 || x < 2200) ? (test_result[2] = 0) : (test_result[2] = 1);
 
     relay_call(test_points[2].pin);
     _delay_ms(500);
     int volt_tp21 = multimeter_read_voltage();
-    (volt_tp21 > 3400 || x < 3600) ? (test_result[3] = 0) : (test_result[3] = 1);
 
     // sprintf(buffer, "TP21: %d\r\n", volt_tp21);
     // uart0_puts(buffer);
@@ -527,7 +622,6 @@ void test_1() {
     relay_call(test_points[3].pin);
     _delay_ms(500);
     int volt_tp22 = multimeter_read_voltage();
-    (volt_tp22 > 500 || x < 700) ? (test_result[4] = 0) : (test_result[4] = 1);
 
     // sprintf(buffer, "TP22: %d\r\n", volt_tp22);
     // uart0_puts(buffer);
@@ -535,7 +629,6 @@ void test_1() {
     relay_call(test_points[4].pin);
     _delay_ms(500);
     int volt_tp25 = multimeter_read_voltage();
-    (volt_tp25 > 2000 || x < 2200) ? (test_result[5] = 0) : (test_result[5] = 1);
 
     // sprintf(buffer, "TP25: %d\r\n", volt_tp25);
     // uart0_puts(buffer);
@@ -543,38 +636,69 @@ void test_1() {
     relay_call(test_points[5].pin);
     _delay_ms(500);
     int volt_tp26 = multimeter_read_voltage();
-    (volt_tp26 > 2000 || x < 2200) ? (test_result[6] = 0) : (test_result[6] = 1);
 
     // sprintf(buffer, "TP26: %d\r\n", volt_tp26);
     // uart0_puts(buffer);
 
     RT68_OFF
 
-    for (uint8_t i=0;i<7;i++) {
-        if (test_result[i]) {
-            uart0_transmit(0x31 + i);
-            uart0_transmit('F');
-            return;
-        }
-    }
-    uart0_transmit(0x31 + 6);
-    uart0_transmit('P');
+    /* blink DEBUG */
+    //
 
-    return;
+    /* L1_OUT & L2_OUT DEBUG */
+    uint16_t x = sqrt(true_rms_sum/true_rms_num);
+    //
+
+    /* C code no longer make pass/fail test on TP, values are passed to Python code only */
+    struct message_packet_t
+    {
+        char blink;
+        char output;
+        uint16_t TP35;
+        uint16_t TP21;
+        uint16_t TP22;
+        uint16_t TP25;
+        uint16_t TP26;
+    };
+    
+    struct message_packet_t message_packet;
+
+    (j == 5) ? (message_packet.blink = 'P') : (message_packet.blink = 'F');
+    // blink_fail ? (message_packet.blink = 'F') : (message_packet.blink = 'P');
+    (x > 44 || x < 46) ? (message_packet.output = 'P') : (message_packet.output = 'F');
+    message_packet.TP35 = volt_tp35;
+    message_packet.TP21 = volt_tp21;
+    message_packet.TP22 = volt_tp22;
+    message_packet.TP25 = volt_tp25;
+    message_packet.TP26 = volt_tp26;
+
+    char* p = (char*)&message_packet;
+
+    for (uint8_t i=0;i<sizeof(message_packet);i++) {
+        uart0_transmit(*p++);
+    }
 }
 
-void test_2() {                                                     // test: GROUND
+void test_2() {
     PORTC |= (1 << relay_16[2].pin);
 
     uint32_t t_0 = tick;
 
-    enable_beep();
+    /* do not call enable_blink(), won't work, must clear flag first */
+    EIFR |= (1 << INTF2);                                           // INT2 will false trigger at first, clear flag by writing 1 to EIFR
+    cli();
+    EICRA |= (1 << ISC21) | (1 << ISC20);                           // set bits to choose rising edge triggering
+    EIMSK |= (1 << INT2);                                           // enable interrupt
+    sei();
+
     enable_blink();
     start_timer1();
     RT68_ON
 
     uint8_t color_temp[3] = {0};
     uint8_t led_blink = 0;
+    uint8_t edge_direction = 0;                                     // default direction is rising
+    uint32_t t_1 = 0;
     uint8_t num_beep = 0;
     uint8_t test_result[3] = {0};
     bool volt_crossed = false;
@@ -599,17 +723,29 @@ void test_2() {                                                     // test: GRO
 
         /* beep detection */
         if (beep_flag) {
-            uint32_t t_1 = tick;
+            switch (edge_direction)
+            {
+            case 0:                                                 // rising edge
+                t_1 = tick;
+                edge_direction = 1;
+                break;
             
-            /* DEBUG */
-            sprintf(buffer, "beep: %lu\r\n", tick-t_0);
-            uart0_puts(buffer);
-            num_beep++;
+            case 1:                                                 // falling edge
+                if (tick - t_1 < 750 && tick - t_1 > 615) {         // beep ON width: derived empirically
+                    num_beep++;
+                }
+                edge_direction = 0;
+                break;
 
+            default:
+                break;
+            }
+            
             beep_flag = false;
         }
 
-        if (tick - t_0 > 9000) {                                   // a string of beep spaced 2900ms apart
+
+        if (tick - t_0 > 9000) {                                    // a string of beep spaced 2900ms apart
             /* timeout */
             break;
         }
@@ -629,23 +765,23 @@ void test_2() {                                                     // test: GRO
     PORTC |= (1 << relay_16[0].pin) | (1 << relay_16[1].pin);
     _delay_ms(1500);                                                // after relay opens, it take ~ 1.3 s for the board to emit beep, shoulde wait for the until the next test
 
-    // (led_blink == 6) ? (test_result[0] = 0) : (test_result[0] = 1);
-    // (num_beep == 6 || num_beep == 7) ? (test_result[1] = 0) : (test_result[1] = 1);
-    // (volt_tp38 > 2400 && volt_tp38 < 2500) ? (test_result[2] = 0) : (test_result[2] = 1);
+    (led_blink == 6 | led_blink == 7) ? (test_result[0] = 0) : (test_result[0] = 1);
+    (num_beep == 3) ? (test_result[1] = 0) : (test_result[1] = 1);
+    (volt_tp38 > 2400 && volt_tp38 < 2500) ? (test_result[2] = 0) : (test_result[2] = 1);
     
-    // for (uint8_t i=0;i<3;i++) {
-    //     if (test_result[i]) {
-    //         uart0_transmit(0x31 + i);
-    //         uart0_transmit('F');
-    //         return;
-    //     }
-    // }
-    // uart0_transmit(0x31 + 2);
-    // uart0_transmit('P');
+    for (uint8_t i=0;i<3;i++) {
+        if (test_result[i]) {
+            uart0_transmit(0x31 + i);
+            uart0_transmit('F');
+            return;
+        }
+    }
+    uart0_transmit(0x31 + 2);
+    uart0_transmit('P');
 
-    // return;
-    sprintf(buffer, "blink: %u beep: %u\r\n", led_blink, num_beep);
-    uart0_puts(buffer);
+    return;
+    // sprintf(buffer, "blink: %u beep: %u\r\n", led_blink, num_beep);
+    // uart0_puts(buffer);
 }
 
 void test_3() {
@@ -1169,7 +1305,7 @@ void test_6() {
     // uart0_puts(buffer);
 
     (led_blink == 22 || led_blink == 23) ? (test_result[0] = 0) : (test_result[0] = 1);
-    (number_beep == 10) ? (test_result[1] = 0) : (test_result[1] = 1);
+    (number_beep == 10 || number_beep == 11) ? (test_result[1] = 0) : (test_result[1] = 1);
     (rms < 10) ? (test_result[2] = 0) : (test_result[2] = 1);
     
     for (uint8_t i=0;i<3;i++) {
@@ -1718,7 +1854,7 @@ void test_11() {
 
     PORTC |= (1 << relay_16[2].pin) | (1 << relay_16[0].pin) | (1 << relay_16[1].pin) | (1 << relay_16[3].pin) | (1 << relay_16[4].pin);
 
-    (led_blink == 6) ? (test_result[0] = 0) : (test_result[0] = 1);
+    (led_blink == 6 || led_blink == 7) ? (test_result[0] = 0) : (test_result[0] = 1);
     (number_beep == 6) ? (test_result[1] = 0) : (test_result[1] = 1);
     x = sqrt(rms_sum/rms_num);
     (x < 17 ) ? (test_result[2] = 0) : (test_result[2] = 1);        // L1_OUT & L2_OUT is NOT zero! but ~90 VAC
